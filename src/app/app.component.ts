@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    title = 'angular-plugin';
+
+    componentLoader = () => import('./components/todo-list/todo-list.component');
+    componentName = 'TodoListComponent';
 }

@@ -9,6 +9,8 @@ import { PluginDirective } from './plugin.directive';
     ],
     imports: [
     ],
-    exports: [AngularLazyComponentComponent]
+    exports: [
+        AngularLazyComponentComponent,
+    ]
 })
 export class AngularLazyComponentModule { }

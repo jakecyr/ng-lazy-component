@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 
 @Component({
     selector: 'app-todo-list',
@@ -12,3 +12,10 @@ export class TodoListComponent implements OnInit {
     ngOnInit(): void {
     }
 }
+
+@NgModule({
+    declarations: [
+        TodoListComponent,
+    ],
+})
+export class AppModule { }

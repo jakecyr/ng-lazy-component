@@ -2,14 +2,13 @@ import { Component, Input, ViewChild, ComponentFactoryResolver, AfterViewInit, C
 import { PluginDirective } from './plugin.directive';
 
 @Component({
-    selector: 'lib-angular-lazy-component',
+    selector: 'ng-lazy-component',
     templateUrl: 'angular-lazy-component.component.html',
     styles: []
 })
 export class AngularLazyComponentComponent implements AfterViewInit {
 
     @ViewChild(PluginDirective) pluginHost: PluginDirective;
-
     @Input() componentName: string;
     @Input() componentLoader: () => Promise<any>;
 
