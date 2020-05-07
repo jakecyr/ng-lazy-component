@@ -1,27 +1,46 @@
-# Ng Lazy Component Loader
+# Ng Lazy Component
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.4.
+Simple wrapper for Angular 9 lazy component loading using `import`.
 
-## Development server
+## How to use
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Install the lib `npm install ng-lazy-component`
+2. Import the `NgLazyComponentModule` from the lib into your module where you want to lazy load a component
+3. Use the `ng-lazy-component` in your template:
 
-## Code scaffolding
+    ```html
+    <ng-lazy-component
+        [loader]="componentLoader"
+        [className]="componentName"
+        [inputs]="inputs">
+    </ng-lazy-component>
+    ```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+    Where the inputs are the following:
 
-## Build
+    ```typescript
+    className: string;
+    inputs: { [index: string]: any };
+    loader: () => Promise<any>;
+    ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+    Example:
 
-## Running unit tests
+    ```typescript
+    componentLoader = () => import('./components/todo-list/todo-list.component');
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    componentName = 'TodoListComponent';
 
-## Running end-to-end tests
+    inputs = {
+        listName: 'My Todo List',
+        todos: [
+            'Do homework',
+            'Walk the dog',
+            'Work',
+            'Repeat',
+        ]
+    };
+    ```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+    This will load the component 'lazily' when the template is rendered.
+    
