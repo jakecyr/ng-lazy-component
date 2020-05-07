@@ -1,5 +1,3 @@
-[![npm version](https://badge.fury.io/js/ng-lazy-component.svg)](https://badge.fury.io/js/ng-lazy-component)
-
 # Ng Lazy Component
 
 Simple wrapper for Angular 9 lazy component loading using `import`.
@@ -24,6 +22,21 @@ Simple wrapper for Angular 9 lazy component loading using `import`.
     className: string;
     inputs: { [index: string]: any };
     loader: () => Promise<any>;
+    ```
+
+    Available outputs are:
+
+    ```typescript
+    componentOutput = new EventEmitter<LazyComponentOutput>();
+    componentInstance = new EventEmitter<any>();
+    ```
+
+    `LazyComponentOutput` type:
+
+    ```typescript
+    export interface LazyComponentOutput {
+        [index: string]: Observable<any>;
+    }
     ```
 
     Example:
