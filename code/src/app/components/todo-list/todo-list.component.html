@@ -1,2 +1,6 @@
 <h2>{{listName}}</h2>
-<div *ngFor="let todo of todos">{{todo}}</div>
+<div *ngFor="let todo of todos; index as i">
+    {{todo}}
+
+    <button (click)="removeTodo(i)">X</button>
+</div>

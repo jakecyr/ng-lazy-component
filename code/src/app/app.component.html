@@ -1,2 +1,5 @@
-<ng-lazy-component [loader]="componentLoader" [className]="componentName" [inputs]="inputs">
+<ng-lazy-component #lazy *ngIf="show"[loader]="componentLoader" [className]="componentName" [inputs]="inputs">
 </ng-lazy-component>
+
+<button (click)="updateTodos()">Update List</button>
+<button (click)="show = !show">Destroy</button>
