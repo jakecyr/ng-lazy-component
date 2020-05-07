@@ -1,21 +1,29 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, NgModule, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-todo-list',
     templateUrl: './todo-list.component.html',
     styleUrls: ['./todo-list.component.scss']
 })
-export class TodoListComponent implements OnInit {
+export class TodoListComponent implements OnChanges {
 
-    constructor() { }
+    listName: string;
+    todos: string[] = [];
 
-    ngOnInit(): void {
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.listName) {
+            this.listName = changes.listName.currentValue;
+        }
+
+        if (changes.todos) {
+            this.todos = changes.todos.currentValue;
+        }
     }
 }
 
 @NgModule({
-    declarations: [
-        TodoListComponent,
-    ],
+    declarations: [TodoListComponent],
+    imports: [CommonModule],
 })
-export class AppModule { }
+export class TodoListModule { }

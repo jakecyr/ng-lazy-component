@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { AngularLazyComponentModule } from 'projects/angular-lazy-component/src/public-api';
+import { NgLazyComponentModule } from 'projects/ng-lazy-component/src/public-api';
 
 @NgModule({
     declarations: [
@@ -9,7 +9,7 @@ import { AngularLazyComponentModule } from 'projects/angular-lazy-component/src/
     ],
     imports: [
         BrowserModule,
-        AngularLazyComponentModule,
+        NgLazyComponentModule,
     ],
     bootstrap: [AppComponent]
 })
