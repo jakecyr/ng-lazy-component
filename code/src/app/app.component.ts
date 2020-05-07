@@ -1,16 +1,16 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { AngularLazyComponentComponent } from 'projects/ng-lazy-component/src/public-api';
-import { TodoListComponent } from './components/todo-list/todo-list.component';
+import { Component } from '@angular/core';
+import { LazyComponentOutput } from 'projects/ng-lazy-component/src/public-api';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
 
-    @ViewChild('lazy') ngLazyComponent: AngularLazyComponentComponent;
-
+    subscribeUntil = new Subject();
     show = true;
 
     componentLoader = () => import('./components/todo-list/todo-list.component');
@@ -27,21 +27,17 @@ export class AppComponent implements AfterViewInit {
         ]
     };
 
-    ngAfterViewInit() {
-        this.ngLazyComponent.getComponentRef<TodoListComponent>().subscribe((component) => {
-            if (component) {
-                component.todoRemoved.subscribe((todoRemoved) => {
-                    console.log('Todo removed in todo component', todoRemoved);
-                });
-            }
-        });
-    }
     updateTodos() {
-        this.inputs = {
-            listName: 'My Updated List',
-            todos: [
-                'Repeat',
-            ]
-        };
+        this.inputs = { listName: 'My Updated List', todos: ['Repeat'] };
+    }
+    outputEvent(event: LazyComponentOutput) {
+        this.subscribeUntil.next(true);
+        this.subscribeUntil.complete();
+
+        this.subscribeUntil = new Subject();
+
+        event.todoRemoved
+            .pipe(takeUntil(this.subscribeUntil))
+            .subscribe((removalEvent) => console.log('REMOVED', removalEvent));
     }
 }

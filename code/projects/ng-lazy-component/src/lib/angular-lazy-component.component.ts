@@ -1,6 +1,10 @@
-import { Component, Input, ViewChild, ComponentFactoryResolver, AfterViewInit, SimpleChange, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild, ComponentFactoryResolver, AfterViewInit, SimpleChange, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { PluginDirective } from './plugin.directive';
 import { BehaviorSubject, Observable } from 'rxjs';
+
+export interface LazyComponentOutput {
+    [index: string]: Observable<any>;
+}
 
 @Component({
     selector: 'ng-lazy-component',
@@ -13,9 +17,12 @@ export class AngularLazyComponentComponent implements AfterViewInit, OnChanges, 
     @Input() className: string;
     @Input() inputs: { [index: string]: any };
     @Input() loader: () => Promise<any>;
+    @Output() componentOutput = new EventEmitter<LazyComponentOutput>();
 
     private instance = new BehaviorSubject<any>(null);
     private viewContainerRef: any;
+
+    componentOutputMap: LazyComponentOutput = {};
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
@@ -69,5 +76,17 @@ export class AngularLazyComponentComponent implements AfterViewInit, OnChanges, 
         }
 
         this.instance.next(instance);
+        this.subscribeToOutputs(instance);
+    }
+    private subscribeToOutputs(instance: any) {
+        this.componentOutputMap = {};
+
+        for (const prop in instance) {
+            if (instance[prop] instanceof EventEmitter) {
+                this.componentOutputMap[prop] = instance[prop] as Observable<any>;
+            }
+        }
+
+        this.componentOutput.emit(this.componentOutputMap);
     }
 }
