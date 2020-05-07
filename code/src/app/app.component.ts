@@ -40,4 +40,7 @@ export class AppComponent {
             .pipe(takeUntil(this.subscribeUntil))
             .subscribe((removalEvent) => console.log('REMOVED', removalEvent));
     }
+    handleComponentInstance(event: any) {
+        console.log(event)
+    }
 }

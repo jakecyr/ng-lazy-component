@@ -17,6 +17,7 @@ export class AngularLazyComponentComponent implements AfterViewInit, OnChanges {
     @Input() inputs: { [index: string]: any };
     @Input() loader: () => Promise<any>;
     @Output() componentOutput = new EventEmitter<LazyComponentOutput>();
+    @Output() componentInstance = new EventEmitter<any>();
 
     private instance = new BehaviorSubject<any>(null);
 
@@ -68,6 +69,7 @@ export class AngularLazyComponentComponent implements AfterViewInit, OnChanges {
             instance.ngOnChanges(changes);
         }
 
+        this.componentInstance.emit(instance);
         this.instance.next(instance);
         this.subscribeToOutputs(instance);
     }

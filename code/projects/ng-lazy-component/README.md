@@ -24,6 +24,21 @@ Simple wrapper for Angular 9 lazy component loading using `import`.
     loader: () => Promise<any>;
     ```
 
+    Available outputs are:
+
+    ```typescript
+    componentOutput = new EventEmitter<LazyComponentOutput>();
+    componentInstance = new EventEmitter<any>();
+    ```
+
+    `LazyComponentOutput` type:
+
+    ```typescript
+    export interface LazyComponentOutput {
+        [index: string]: Observable<any>;
+    }
+    ```
+
     Example:
 
     ```typescript
