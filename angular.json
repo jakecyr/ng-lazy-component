@@ -123,6 +123,46 @@
           }
         }
       }
+    },
+    "angular-lazy-component": {
+      "projectType": "library",
+      "root": "projects/angular-lazy-component",
+      "sourceRoot": "projects/angular-lazy-component/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/angular-lazy-component/tsconfig.lib.json",
+            "project": "projects/angular-lazy-component/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/angular-lazy-component/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/angular-lazy-component/src/test.ts",
+            "tsConfig": "projects/angular-lazy-component/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-lazy-component/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/angular-lazy-component/tsconfig.lib.json",
+              "projects/angular-lazy-component/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "angular-plugin"
 }

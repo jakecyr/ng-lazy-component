@@ -14,7 +14,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "angular-lazy-component": [
+        "dist/angular-lazy-component/angular-lazy-component",
+        "dist/angular-lazy-component"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
