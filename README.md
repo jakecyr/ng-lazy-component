@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/ng-lazy-component.svg)](https://badge.fury.io/js/ng-lazy-component)
+
 # Ng Lazy Component
 
 Simple wrapper for Angular 9 lazy component loading using `import`.
