@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ComponentFactoryResolver, AfterViewInit, SimpleChange, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ViewChild, ComponentFactoryResolver, AfterViewInit, SimpleChange, OnChanges, SimpleChanges, Output, EventEmitter, ComponentRef } from '@angular/core';
 import { PluginDirective } from './plugin.directive';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -9,9 +9,8 @@ export interface LazyComponentOutput {
 @Component({
     selector: 'ng-lazy-component',
     templateUrl: 'angular-lazy-component.component.html',
-    styles: []
 })
-export class AngularLazyComponentComponent implements AfterViewInit, OnChanges, OnDestroy {
+export class AngularLazyComponentComponent implements AfterViewInit, OnChanges {
 
     @ViewChild(PluginDirective) pluginHost: PluginDirective;
     @Input() className: string;
@@ -20,7 +19,6 @@ export class AngularLazyComponentComponent implements AfterViewInit, OnChanges, 
     @Output() componentOutput = new EventEmitter<LazyComponentOutput>();
 
     private instance = new BehaviorSubject<any>(null);
-    private viewContainerRef: any;
 
     componentOutputMap: LazyComponentOutput = {};
 
@@ -42,11 +40,6 @@ export class AngularLazyComponentComponent implements AfterViewInit, OnChanges, 
             }
         }
     }
-    ngOnDestroy() {
-        if (this.viewContainerRef) {
-            this.viewContainerRef.clear();
-        }
-    }
     ngAfterViewInit() {
         this.generatePlugin();
     }
@@ -57,10 +50,10 @@ export class AngularLazyComponentComponent implements AfterViewInit, OnChanges, 
         const response = await this.loader();
         const componentRef = response[this.className];
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef);
-        this.viewContainerRef = this.pluginHost.viewContainerRef;
+        const viewContainerRef = this.pluginHost.viewContainerRef;
 
-        this.viewContainerRef.clear();
-        const componentReference = this.viewContainerRef.createComponent(componentFactory);
+        viewContainerRef.clear();
+        const componentReference: ComponentRef<unknown> = viewContainerRef.createComponent(componentFactory);
         const instance = componentReference.instance as any;
 
         if (this.inputs && instance.ngOnChanges) {
